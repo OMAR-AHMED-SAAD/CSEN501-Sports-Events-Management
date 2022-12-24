@@ -17,11 +17,10 @@ namespace MileStone_3
 
         }
 
-        protected void TextBox1_TextChanged(object sender, EventArgs e)
+        protected void register(object sender, EventArgs e)
         {
-
+            Response.Redirect("Registeration.aspx");
         }
-
         protected void login(object sender, EventArgs e)
         {
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
@@ -34,7 +33,7 @@ namespace MileStone_3
             loginproc.Parameters.Add(new SqlParameter("@password", pass));
 
             SqlParameter success = loginproc.Parameters.Add("@success", SqlDbType.Int);
-            SqlParameter type = loginproc.Parameters.Add("@type", SqlDbType.VarChar,50);
+            SqlParameter type = loginproc.Parameters.Add("@type", SqlDbType.VarChar, 50);
             success.Direction = ParameterDirection.Output;
             type.Direction = ParameterDirection.Output;
 
@@ -42,9 +41,10 @@ namespace MileStone_3
             loginproc.ExecuteNonQuery();
             conn.Close();
 
-            if(success.Value.ToString()=="1")
+            if (success.Value.ToString() == "1")
             {
                 // Response.Write("Hello");
+                Session["user"] = user;
                 if (type.Value.ToString() == "SystemAdmin")
                 {
                     Response.Redirect("SystemAdmin.aspx");
@@ -67,7 +67,7 @@ namespace MileStone_3
                 Response.Write("Invalid username or password");
             }
 
-            
+
         }
     }
 }
