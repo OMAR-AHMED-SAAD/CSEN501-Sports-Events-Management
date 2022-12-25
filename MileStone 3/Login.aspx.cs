@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using System.Net.Configuration;
 using System.Web.Configuration;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace MileStone_3
 {
@@ -14,7 +10,12 @@ namespace MileStone_3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Request.QueryString["Message"] !=null)
+            {
+                loginalert.Style.Add("background-color", "#119934");
+                msg.Text = Request.QueryString["Message"];
+                loginalert.Style.Add("display", "block");
+            }
         }
 
         protected void register(object sender, EventArgs e)
@@ -64,7 +65,8 @@ namespace MileStone_3
             }
             else
             {
-                Response.Write("Invalid username or password");
+                msg.Text = "Invalid username or password";
+                loginalert.Style.Add("display", "block");
             }
 
 

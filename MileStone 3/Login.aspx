@@ -26,13 +26,18 @@
 				<span class="login100-form-title p-b-41">
 					Account Login
 				</span>
+				<div runat="server" id='loginalert' class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <asp:label runat="server" ID="msg"></asp:label>
+                </div>
+
 				<form  id="form1" runat="server" class="login100-form validate-form p-b-33 p-t-5">
-					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-							<asp:TextBox ID="username" runat="server" class="input100" type="text" name="username" placeholder="Username"></asp:TextBox>
+					<div class="wrap-input100">
+							<asp:TextBox ID="username" runat="server" class="input100" type="text" name="username" placeholder="Username" ValidatioGroup='Group1'></asp:TextBox>
 						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password" >
+					<div class="wrap-input100">
 						 <asp:TextBox ID="password" runat="server"  class="input100" type="password" name="pass" placeholder="Password"></asp:TextBox>
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>

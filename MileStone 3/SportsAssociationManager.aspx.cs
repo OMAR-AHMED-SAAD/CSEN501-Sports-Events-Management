@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Configuration;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
 
 namespace MileStone_3
 {
@@ -27,7 +22,7 @@ namespace MileStone_3
             String start = starttime.Value;
             String end = endtime.Value;
 
-            if (hostclub=="" || guestclub=="" || start=="" || end=="")
+            if (hostclub == "" || guestclub == "" || start == "" || end == "")
             {
                 Response.Write("You must enter host club, guest club, start time and end time");
             }
@@ -54,7 +49,7 @@ namespace MileStone_3
                     checkclub2.Parameters.Add(new SqlParameter("name", guestclub));
                     SqlParameter found0 = checkclub2.Parameters.Add("@found", SqlDbType.Int);
                     found0.Direction = ParameterDirection.Output;
-                   
+
                     conn.Open();
                     checkclub2.ExecuteNonQuery();
                     conn.Close();
@@ -68,7 +63,7 @@ namespace MileStone_3
                         checkmatch.CommandType = CommandType.StoredProcedure;
                         checkmatch.Parameters.Add(new SqlParameter("host", hostclub));
                         checkmatch.Parameters.Add(new SqlParameter("guest", guestclub));
-                        checkmatch.Parameters.Add(new SqlParameter("start_time",Convert.ToDateTime(start)));
+                        checkmatch.Parameters.Add(new SqlParameter("start_time", Convert.ToDateTime(start)));
                         checkmatch.Parameters.Add(new SqlParameter("end_time", Convert.ToDateTime(end)));
                         SqlParameter found2 = checkmatch.Parameters.Add("@found", SqlDbType.Int);
                         found2.Direction = ParameterDirection.Output;
@@ -197,18 +192,18 @@ namespace MileStone_3
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
             DateTime date1 = DateTime.Now;
-            SqlCommand upcomingmatches1 = new SqlCommand(" SELECT * FROM dbo.availableMatchesToAttend();", conn);
+            SqlCommand upcomingmatches1 = new SqlCommand(" SELECT * FROM dbo.availableMatchesToAttend2(@date);", conn);
             upcomingmatches1.CommandType = CommandType.Text;
+            upcomingmatches1.Parameters.AddWithValue("@date", date1);
 
             conn.Open();
-            SqlDataReader rdr = upcomingmatches1.ExecuteReader(CommandBehavior.CloseConnection);
+            SqlDataReader rdr = upcomingmatches1.ExecuteReader();
             while (rdr.Read())
             {
-                String host = rdr.GetString(rdr.GetOrdinal("host"));
+                String host = rdr[0].ToString();
                 String guest = rdr.GetString(rdr.GetOrdinal("guest"));
-                String start = rdr.GetString(rdr.GetOrdinal("start_time"));
-                String stadium = rdr.GetString(rdr.GetOrdinal("Stadium"));
-
+                String start = rdr[2].ToString();
+                String end = rdr[3].ToString();
 
                 HtmlTableRow tr = new HtmlTableRow();
                 HtmlTableCell td = new HtmlTableCell();
@@ -218,7 +213,7 @@ namespace MileStone_3
                 td.InnerText = host;
                 td1.InnerText = guest;
                 td2.InnerText = start;
-                td3.InnerText = stadium;
+                td3.InnerText = end;
                 tr.Controls.Add(td);
                 tr.Controls.Add(td1);
                 tr.Controls.Add(td2);
@@ -226,10 +221,71 @@ namespace MileStone_3
                 upcomingmatches.Rows.Add(tr);
 
             }
-
+            conn.Close();
         }
 
-        
+        protected void played_matches_Click(object sender, EventArgs e)
+        {
+            string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
+            SqlConnection conn = new SqlConnection(connStr);
+            DateTime date1 = DateTime.Now;
+            SqlCommand alreadyplayed = new SqlCommand(" SELECT * FROM dbo.alreadyplayed(@date);", conn);
+            alreadyplayed.CommandType = CommandType.Text;
+            alreadyplayed.Parameters.AddWithValue("@date", date1);
+
+            conn.Open();
+            SqlDataReader rdr = alreadyplayed.ExecuteReader();
+            while (rdr.Read())
+            {
+                String host = rdr[0].ToString();
+                String guest = rdr.GetString(rdr.GetOrdinal("guest"));
+                String start = rdr[2].ToString();
+                String end = rdr[3].ToString();
+
+                HtmlTableRow tr = new HtmlTableRow();
+                HtmlTableCell td = new HtmlTableCell();
+                HtmlTableCell td1 = new HtmlTableCell();
+                HtmlTableCell td2 = new HtmlTableCell();
+                HtmlTableCell td3 = new HtmlTableCell();
+                td.InnerText = host;
+                td1.InnerText = guest;
+                td2.InnerText = start;
+                td3.InnerText = end;
+                tr.Controls.Add(td);
+                tr.Controls.Add(td1);
+                tr.Controls.Add(td2);
+                tr.Controls.Add(td3);
+                playedmatches.Rows.Add(tr);
+
+            }
+            conn.Close();
+        }
+
+        protected void neverplayed_Click(object sender, EventArgs e)
+        {
+            string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
+            SqlConnection conn = new SqlConnection(connStr);
+            SqlCommand neverplayedcmd = conn.CreateCommand();
+            neverplayedcmd.CommandText = "SELECT * FROM clubsNeverMatched2";
+            conn.Open();
+            SqlDataReader rdr = neverplayedcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                String club1 = rdr[0].ToString();
+                String club2 = rdr[1].ToString();
+                HtmlTableRow tr = new HtmlTableRow();
+                HtmlTableCell td = new HtmlTableCell();
+                HtmlTableCell td1 = new HtmlTableCell();
+                td.InnerText = club1;
+                td1.InnerText = club2;
+                tr.Controls.Add(td);
+                tr.Controls.Add(td1);
+                clubsneverplayed.Rows.Add(tr);
+
+            }
+            conn.Close();
+
+        }
     }
 
 }

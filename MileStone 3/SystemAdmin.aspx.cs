@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Configuration;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace MileStone_3
 {
@@ -33,19 +28,19 @@ namespace MileStone_3
             checkclub.Parameters.Add(new SqlParameter("@name", clubname));
             SqlParameter found = checkclub.Parameters.Add("@found", SqlDbType.Int);
             found.Direction = ParameterDirection.Output;
-  
+
             conn.Open();
             checkclub.ExecuteNonQuery();
             conn.Close();
 
-            if (found.Value.ToString()=="0")
+            if (found.Value.ToString() == "0")
             {
-            conn.Open();
-            addclubproc.ExecuteNonQuery();
-            conn.Close();
-            clubnameadd.Text = "";
-            clublocationadd.Text = "";
-            Response.Write("Club added successfully");
+                conn.Open();
+                addclubproc.ExecuteNonQuery();
+                conn.Close();
+                clubnameadd.Text = "";
+                clublocationadd.Text = "";
+                Response.Write("Club added successfully");
             }
             else
             {
@@ -76,17 +71,17 @@ namespace MileStone_3
 
             if (found.Value.ToString() == "1")
             {
-            conn.Open();
-            deleteclubproc.ExecuteNonQuery();
-            conn.Close();
-            clubnamedelete.Text = "";
-            Response.Write("Club deleted successfully");
-        }
+                conn.Open();
+                deleteclubproc.ExecuteNonQuery();
+                conn.Close();
+                clubnamedelete.Text = "";
+                Response.Write("Club deleted successfully");
+            }
             else
             {
                 Response.Write("Club does not exist");
             }
-}
+        }
 
         protected void stadiumadd_Click(object sender, EventArgs e)
         {

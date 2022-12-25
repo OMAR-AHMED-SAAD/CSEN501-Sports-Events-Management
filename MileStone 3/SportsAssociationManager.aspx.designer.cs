@@ -96,6 +96,15 @@ namespace MileStone_3
         protected global::System.Web.UI.HtmlControls.HtmlTable upcomingmatches;
 
         /// <summary>
+        /// played_matches control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button played_matches;
+
+        /// <summary>
         /// playedmatches control.
         /// </summary>
         /// <remarks>
@@ -105,39 +114,21 @@ namespace MileStone_3
         protected global::System.Web.UI.HtmlControls.HtmlTable playedmatches;
 
         /// <summary>
-        /// Td1 control.
+        /// neverplayed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell Td1;
+        protected global::System.Web.UI.WebControls.Button neverplayed;
 
         /// <summary>
-        /// Td2 control.
+        /// clubsneverplayed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell Td2;
-
-        /// <summary>
-        /// Td3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell Td3;
-
-        /// <summary>
-        /// Td4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell Td4;
+        protected global::System.Web.UI.HtmlControls.HtmlTable clubsneverplayed;
     }
 }
