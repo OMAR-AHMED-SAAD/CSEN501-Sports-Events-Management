@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
         <h2>SportsAssociationManager
         </h2>
-        <h3>Add/Delete Club
+        <h3>Add/Delete Match
         </h3>
         <h4>Host Club Name:
             <asp:TextBox ID="hostclubname" runat="server"></asp:TextBox>
