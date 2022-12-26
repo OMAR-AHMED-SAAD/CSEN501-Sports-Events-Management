@@ -85,7 +85,7 @@
     <Content Include="images\cr.jpeg" />
     <Content Include="images\fan.jpg" />
     <Content Include="images\icons\favicon.ico" />
-    <Content Include="images\sm.png" />
+    <Content Include="images\sm.jpg" />
     <Content Include="images\spa.jpg" />
     <Content Include="js\main.js" />
     <Content Include="Login.aspx" />
