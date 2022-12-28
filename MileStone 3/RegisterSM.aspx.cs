@@ -10,35 +10,44 @@ namespace MileStone_3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var temp = stadiumname.Items.Count - 1;
-            for (int i = 1; i < temp; i++)
-                stadiumname.Items.RemoveAt(i);
-
-            string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
-            SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand availableclubs = new SqlCommand("SELECT name FROM Stadium WHERE id NOT IN(SELECT stadium_id FROM StadiumManager);", conn);
-            availableclubs.CommandType = CommandType.Text;
-
-
-            conn.Open();
-            SqlDataReader rdr = availableclubs.ExecuteReader();
-            while (rdr.Read())
+            if (!IsPostBack)
             {
-                ListItem Stadium = new ListItem(rdr[0].ToString());
-                stadiumname.Items.Add(Stadium);
+                var temp = stadiumname.Items.Count;
+                for (int i = temp - 1; i >= 1; i--)
+                {
+                    stadiumname.Items.RemoveAt(i);
+                }
+                string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
+                SqlConnection conn = new SqlConnection(connStr);
+                SqlCommand availableclubs = new SqlCommand("SELECT name FROM Stadium WHERE id NOT IN(SELECT stadium_id FROM StadiumManager);", conn);
+                availableclubs.CommandType = CommandType.Text;
+
+
+                conn.Open();
+                SqlDataReader rdr = availableclubs.ExecuteReader();
+                while (rdr.Read())
+                {
+                    ListItem Stadium = new ListItem(rdr[0].ToString());
+                    stadiumname.Items.Add(Stadium);
+                }
+                conn.Close();
             }
-            conn.Close();
         }
 
         protected void signup_Click(object sender, EventArgs e)
         {
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-            String user = username.Text;
-            String pass = password.Text;
-            String name1 = name.Text;
-            String Stadium = stadiumname.Text;
-
+            string user = username.Text;
+            string pass = password.Text;
+            string name1 = name.Text;
+            string Stadium = stadiumname.SelectedValue;
+            if (Stadium == "Choose Stadium")
+            {
+                msg.Text = "Choose a Stadium to represent ";
+                loginalert.Style.Add("display", "block");
+                return;
+            }
 
             SqlCommand checkuser = new SqlCommand("SELECT dbo.checkuserName(@username)", conn);
             checkuser.CommandType = CommandType.Text;
@@ -50,7 +59,7 @@ namespace MileStone_3
                 SqlCommand registersm = new SqlCommand("addStadiumManager", conn);
                 registersm.CommandType = CommandType.StoredProcedure;
                 registersm.Parameters.Add(new SqlParameter("@name", name1));
-                registersm.Parameters.Add(new SqlParameter("@club", Stadium));
+                registersm.Parameters.Add(new SqlParameter("@stadium", Stadium));
                 registersm.Parameters.Add(new SqlParameter("@username", user));
                 registersm.Parameters.Add(new SqlParameter("@password", pass));
                 registersm.ExecuteNonQuery();

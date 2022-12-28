@@ -5,6 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>SPA</title>
+    <style type="text/css">
+        .auto-style1 {
+            width: 108px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -19,14 +24,13 @@
             <asp:TextBox ID="guestclubname" runat="server"></asp:TextBox>
         </h4>
         <h4>Start Time:
-  
             <input type="datetime-local" runat="server" id="starttime"
                 name="start-time" />
 
-            End Time:
-           <input type="datetime-local" runat="server" id="endtime"
+          End Time: 
+           &nbsp;<input type="datetime-local" runat="server" id="endtime"
                name="end-time" />
-        </h4>
+                    </h4>
         <p>
             <asp:Button ID="addmatch" runat="server" Text="Add Match" OnClick="addmatch_Click" />
             &nbsp;&nbsp;

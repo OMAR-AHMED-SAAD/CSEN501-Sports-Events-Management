@@ -66,6 +66,7 @@ namespace MileStone_3
             else
             {
                 msg.Text = "Invalid username or password";
+                loginalert.Style.Add("background-color", "##c80000");
                 loginalert.Style.Add("display", "block");
             }
 

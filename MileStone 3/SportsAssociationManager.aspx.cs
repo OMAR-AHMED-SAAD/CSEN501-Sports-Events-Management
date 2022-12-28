@@ -91,9 +91,17 @@ namespace MileStone_3
                             endtime.Value = "";
                             Response.Write("Match added successfully");
                         }
-                        else
+                        else if(found2.Value.ToString() == "1")
                         {
                             Response.Write("Match already added");
+                        }
+                        else if (found2.Value.ToString() == "2")
+                        {
+                            Response.Write($"{hostclub} has another match at this time");
+                        }
+                        else if (found2.Value.ToString() == "3")
+                        {
+                            Response.Write($"{guestclub} has another match at this time");
                         }
                     }
                 }

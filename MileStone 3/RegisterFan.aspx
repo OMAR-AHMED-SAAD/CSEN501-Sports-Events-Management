@@ -63,7 +63,7 @@
 					</div>
 
 					<div class="container-login100-form-btn m-t-32">
-                        <asp:Button ID="signup" class="login100-form-btn" runat="server" Text="Sign UP"></asp:Button>
+                        <asp:Button ID="signup" class="login100-form-btn" runat="server" Text="Sign UP" OnClick="signup_Click"></asp:Button>
 					</div>
 				</form>
 			</div>

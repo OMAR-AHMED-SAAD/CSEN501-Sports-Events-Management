@@ -14,48 +14,60 @@ namespace MileStone_3
         protected void clubadd_Click(object sender, EventArgs e)
         {
 
+            string clubname = clubnameadd.Text;
+            string clublocation = clublocationadd.Text;
+
+            if(clubname=="" || clublocation == "") {
+                Response.Write("Must add a club name and location");
+                return;
+            }
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
 
-            String clubname = clubnameadd.Text;
-            String clublocation = clublocationadd.Text;
+            
             SqlCommand addclubproc = new SqlCommand("addClub", conn);
             addclubproc.CommandType = CommandType.StoredProcedure;
             addclubproc.Parameters.Add(new SqlParameter("@name", clubname));
             addclubproc.Parameters.Add(new SqlParameter("@location", clublocation));
-            SqlCommand checkclub = new SqlCommand("checkclubexist", conn);
-            checkclub.CommandType = CommandType.StoredProcedure;
-            checkclub.Parameters.Add(new SqlParameter("@name", clubname));
-            SqlParameter found = checkclub.Parameters.Add("@found", SqlDbType.Int);
-            found.Direction = ParameterDirection.Output;
-
-            conn.Open();
-            checkclub.ExecuteNonQuery();
-            conn.Close();
-
-            if (found.Value.ToString() == "0")
+            try
             {
+
                 conn.Open();
                 addclubproc.ExecuteNonQuery();
-                conn.Close();
                 clubnameadd.Text = "";
                 clublocationadd.Text = "";
                 Response.Write("Club added successfully");
             }
-            else
+            catch (SqlException ex)
             {
-                Response.Write("Club already exist");
+                switch (ex.Number)
+                {
+                    case 2627: Response.Write("Club already exist"); ; break;
+                    default: throw;
+                }
             }
+            finally
+            {
+                conn.Close();
+            }
+                
+            
 
         }
 
         protected void clubdelete_Click(object sender, EventArgs e)
         {
+            string clubname = clubnamedelete.Text;
+
+            if (clubname == "" )
+            {
+                Response.Write("Must add a club name");
+                return;
+            }
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
 
-            String clubname = clubnamedelete.Text;
-
+           
             SqlCommand deleteclubproc = new SqlCommand("deleteClub", conn);
             deleteclubproc.CommandType = CommandType.StoredProcedure;
             deleteclubproc.Parameters.Add(new SqlParameter("@name", clubname));
@@ -85,49 +97,56 @@ namespace MileStone_3
 
         protected void stadiumadd_Click(object sender, EventArgs e)
         {
+            string stadiumname = stadiumnameadd.Text;
+            string stadiumlocation = stadiumlocationadd.Text;
+            string stadiumcapacity = stadiumcapacityadd.Text;
+            if(stadiumname=="" || stadiumlocation==""|| stadiumcapacity=="")
+            {
+                Response.Write("Must add a stadium name,loction and capacity");
+                return;
+            }
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-
-            String stadiumname = stadiumnameadd.Text;
-            String stadiumlocation = stadiumlocationadd.Text;
-            String stadiumcapacity = stadiumcapacityadd.Text;
             SqlCommand addstadiumproc = new SqlCommand("addstadium", conn);
             addstadiumproc.CommandType = CommandType.StoredProcedure;
             addstadiumproc.Parameters.Add(new SqlParameter("@stadium_name", stadiumname));
             addstadiumproc.Parameters.Add(new SqlParameter("@location", stadiumlocation));
             addstadiumproc.Parameters.Add(new SqlParameter("@capacity", stadiumcapacity));
-            SqlCommand checkstadium = new SqlCommand("checkstadium", conn);
-            checkstadium.CommandType = CommandType.StoredProcedure;
-            checkstadium.Parameters.Add(new SqlParameter("@name", stadiumname));
-            SqlParameter found = checkstadium.Parameters.Add("@found", SqlDbType.Int);
-            found.Direction = ParameterDirection.Output;
-
-            conn.Open();
-            checkstadium.ExecuteNonQuery();
-            conn.Close();
-
-            if (found.Value.ToString() == "0")
+            try
             {
                 conn.Open();
                 addstadiumproc.ExecuteNonQuery();
-                conn.Close();
                 stadiumnameadd.Text = "";
                 stadiumlocationadd.Text = "";
+                stadiumcapacityadd.Text = "";
                 Response.Write("Stadium added successfully");
             }
-            else
+            catch (SqlException ex)
             {
-                Response.Write("Stadium already exist");
+                switch (ex.Number)
+                {
+                    case 2627: Response.Write("Stadium already exist"); ; break;
+                    default: throw;
+                }
             }
+            finally
+            {
+                conn.Close();
+            }
+          
         }
 
         protected void stadiumdelete_Click(object sender, EventArgs e)
         {
+
+            string stadiumname = stadiumnamedelete.Text;
+            if (stadiumname == "" )
+            {
+                Response.Write("Must add a stadium name");
+                return;
+            }
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-
-            String stadiumname = stadiumnamedelete.Text;
-
             SqlCommand deletestadiumproc = new SqlCommand("deletestadium", conn);
             deletestadiumproc.CommandType = CommandType.StoredProcedure;
             deletestadiumproc.Parameters.Add(new SqlParameter("@name", stadiumname));
@@ -160,7 +179,7 @@ namespace MileStone_3
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
 
-            String FanID = fannationalid.Text;
+            string FanID = fannationalid.Text;
             SqlCommand blockfanproc = new SqlCommand("blockFan", conn);
             blockfanproc.CommandType = CommandType.StoredProcedure;
             blockfanproc.Parameters.Add(new SqlParameter("@national_id", FanID));
