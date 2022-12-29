@@ -93,7 +93,7 @@ namespace MileStone_3
             
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand gethosts = new SqlCommand("SELECT host FROM dbo.availableMatchesToAttend4()", conn);
+            SqlCommand gethosts = new SqlCommand("SELECT DISTINCT host FROM dbo.availableMatchesToAttend4()", conn);
             gethosts.CommandType = CommandType.Text;
           
             conn.Open();
@@ -130,7 +130,7 @@ namespace MileStone_3
             string host = hostclubs.SelectedValue;
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand getmyguests = new SqlCommand("SELECT guest FROM dbo.availableMatchesToAttend4() WHERE host=@host", conn);
+            SqlCommand getmyguests = new SqlCommand("SELECT DISTINCT guest FROM dbo.availableMatchesToAttend4() WHERE host=@host", conn);
             getmyguests.CommandType = CommandType.Text;
             getmyguests.Parameters.AddWithValue("@host", host);
             conn.Open();
@@ -165,7 +165,7 @@ namespace MileStone_3
             string guest = guestclubs.SelectedValue;
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand start = new SqlCommand("SELECT start_time FROM dbo.availableMatchesToAttend4() WHERE host=@host AND guest=@guest", conn);
+            SqlCommand start = new SqlCommand("SELECT DISTINCT start_time FROM dbo.availableMatchesToAttend4() WHERE host=@host AND guest=@guest", conn);
             start.CommandType = CommandType.Text;
             start.Parameters.AddWithValue("@host", host);
             start.Parameters.AddWithValue("@guest", guest);
@@ -194,7 +194,7 @@ namespace MileStone_3
             string date1 = starttime.SelectedValue;
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand availablestadiums = new SqlCommand("SELECT Stadium FROM dbo.availableMatchesToAttend4() WHERE host=@host AND guest=@guest AND start_time=@date", conn);
+            SqlCommand availablestadiums = new SqlCommand("SELECT DISTINCT Stadium FROM dbo.availableMatchesToAttend4() WHERE host=@host AND guest=@guest AND start_time=@date", conn);
             availablestadiums.CommandType = CommandType.Text;
             availablestadiums.Parameters.AddWithValue("@host", host);
             availablestadiums.Parameters.AddWithValue("@guest", guest);

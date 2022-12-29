@@ -9,7 +9,8 @@ using System.Runtime.Remoting.Lifetime;
 namespace MileStone_3
 {
     public partial class StadiumManager : System.Web.UI.Page
-    {   
+    {
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             
@@ -85,8 +86,6 @@ namespace MileStone_3
                     pending1.Rows.Add(tr);
                 }
                 conn.Close();
-
-            
         }
 
 
@@ -137,6 +136,7 @@ namespace MileStone_3
                 requests.Rows.Add(tr);
             }
             conn.Close();
+            
         }
 
         protected void pendingreq_Click(object sender, EventArgs e)
@@ -160,26 +160,35 @@ namespace MileStone_3
                     host = tr.Cells[1].Text;
                     guest = tr.Cells[2].Text;
                     start= tr.Cells[3].Text;
-                    tr.Cells[5].Enabled = false;
-                    tr.Cells[6].Enabled = false;
                     break;
                 }
             }
 
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand acceptproc = new SqlCommand("acceptRequest",conn);
+            SqlCommand acceptproc = new SqlCommand("acceptRequest2",conn);
             acceptproc.CommandType = CommandType.StoredProcedure;
             acceptproc.Parameters.Add(new SqlParameter("@manager_username",user));
             acceptproc.Parameters.Add(new SqlParameter("@host_name", host));
             acceptproc.Parameters.Add(new SqlParameter("@guest_name", guest));
             acceptproc.Parameters.Add(new SqlParameter("@start_time", Convert.ToDateTime(start)));
-            conn.Open();
-            acceptproc.ExecuteNonQuery();
-            conn.Close();
-            Response.Write("Request accepted");
-          
+            SqlParameter success = acceptproc.Parameters.Add("@out", SqlDbType.Int);
+            success.Direction = ParameterDirection.Output;
+                conn.Open();
+                acceptproc.ExecuteNonQuery();
+                conn.Close();
+            if (success.Value.ToString() == "1")
+            {
+                Response.Write("Request accepted");
+            }
+            else
+            {
+               
+                Response.Write("Stadium already hosting another match");
+            }
+            pen.Style.Add("display", "none");
             
+
         }
 
         protected void Reject_Click(object sender, EventArgs e)
@@ -200,9 +209,6 @@ namespace MileStone_3
                     host = tr.Cells[1].Text;
                     guest = tr.Cells[2].Text;
                     start = tr.Cells[3].Text;
-                    tr.Cells[5].Enabled = false;
-                    tr.Cells[6].Enabled = false;
-
                     break;
                 }
             }
@@ -219,6 +225,8 @@ namespace MileStone_3
             rejectproc.ExecuteNonQuery();
             conn.Close();
             Response.Write("Request rejected");
+            pen.Style.Add("display", "none");
+           
         }
 
 

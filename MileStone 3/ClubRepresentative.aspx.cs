@@ -246,7 +246,7 @@ namespace MileStone_3
             
             string connStr = WebConfigurationManager.ConnectionStrings["MileStone 3"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand getmyguests = new SqlCommand("SELECT c2.name FROM Club c1 JOIN Match m ON(c1.id = m.host_id) JOIN  Club c2 ON(c2.id = m.guest_id) WHERE c1.name = @name AND stadium_id IS NULL AND m.start_time >CURRENT_TIMESTAMP", conn);
+            SqlCommand getmyguests = new SqlCommand("SELECT DISTINCT c2.name FROM Club c1 JOIN Match m ON(c1.id = m.host_id) JOIN  Club c2 ON(c2.id = m.guest_id) WHERE c1.name = @name AND stadium_id IS NULL AND m.start_time >CURRENT_TIMESTAMP", conn);
             getmyguests.CommandType = CommandType.Text;
             getmyguests.Parameters.AddWithValue("@name", club);
              conn.Open();

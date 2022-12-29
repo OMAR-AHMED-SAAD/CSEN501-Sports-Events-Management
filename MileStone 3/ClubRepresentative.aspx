@@ -38,7 +38,7 @@
         <h2>
             ClubRepresentative</h2>
         <h3>
-            CLub Name:&nbsp;&nbsp;
+            Club Name:&nbsp;&nbsp;
             <asp:Label ID="clubname" runat="server" Text=""></asp:Label>
     </h3>
     <h3>
