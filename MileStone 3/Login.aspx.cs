@@ -55,7 +55,26 @@ namespace MileStone_3
                     Response.Redirect("ClubRepresentative.aspx");
 
                 else if (type.Value.ToString() == "Fan")
-                    Response.Redirect("Fan.aspx");
+                {
+                    SqlCommand checkstatus = new SqlCommand("SELECT status FROM Fan WHERE username=@user ", conn);
+                    checkstatus.Parameters.AddWithValue("@user", user);
+                    String status = "";
+                    conn.Open();
+                    SqlDataReader rdr = checkstatus.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        status = rdr[0].ToString();
+                    }
+                    conn.Close();
+                    if (status == "False")
+                    {
+                        msg.Text = "You are currently blocked";
+                        loginalert.Style.Add("background-color", "##c80000");
+                        loginalert.Style.Add("display", "block");
+                    }
+                    else
+                        Response.Redirect("Fan.aspx");
+                }
 
                 else if (type.Value.ToString() == "SportsAssociationManager")
                     Response.Redirect("SportsAssociationManager.aspx");

@@ -181,7 +181,11 @@ namespace MileStone_3
             {
                 Response.Write("Request accepted");
             }
-            else
+            else if (success.Value.ToString() == "2")
+            {
+                Response.Write("Host found another Stadium");
+            }
+            else if(success.Value.ToString() == "0")
             {
                
                 Response.Write("Stadium already hosting another match");
